@@ -150,10 +150,10 @@ class ControllerExtensionShippingecpayLogistic extends Controller {
 			$AL->HashKey = $ecpaylogisticSetting['ecpaylogistic_hashkey'];
 			$AL->HashIV = $ecpaylogisticSetting['ecpaylogistic_hashiv'];
 			$AL->CheckOutFeedback($this->request->post);
-			$orderID = (int)$this->request->post['MerchantTradeNo'];
+			$MerchantTradeNo = (($this->request->post['MerchantID']=='2000132') || ($this->request->post['MerchantID']=='2000933')) ? substr($this->request->post['MerchantTradeNo'], 14) : $this->request->post['MerchantTradeNo'];
+			$orderID = (int)$MerchantTradeNo;
 			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE order_id = '" . $orderID . "'" );
             $aOrder_Info_Tmp = $query->rows[0] ;
-
 			$sMsg = "綠界科技廠商管理後台物流訊息:<br>" . print_r($this->request->post, true);
 			$aSuccessCodes = ['2067', '3022', '300'];
 			$sRtnCode = $this->request->post['RtnCode'];
